@@ -1,0 +1,104 @@
+#include <iostream>
+#include <random>
+#include <ctime>
+
+
+bool startGame() 
+{
+	std::cout << "\n\n\tDo you want to play 'rock-paper-scissors shoot'?\tyes or no?\n\t\t\t\t\t\t\t\t";
+	std::string answer{ "Answer" };
+	std::cin >> answer;
+	while (answer != "yes" && answer != "no")
+	{
+		std::cout << "\t\tInvalid response. Try again. \t\t";
+		std::cin >> answer;
+	}
+	return (answer == "yes") ? true : false;
+}
+
+
+int figure() 
+{
+	srand(static_cast<unsigned int>(time(0)));
+	return rand() % 3;
+}
+
+
+std::string figureGamer() 
+{
+	std::cout << "\n\t\tYour choice is...?\trock? paper? scissors?\n\t\t\t\t\t";
+	std::string answer{ "Answer" };
+	std::cin >> answer;
+	while (answer != "rock" && answer != "paper" && answer != "scissors")
+	{
+		std::cout << "\t\tInvalid response. Try again. \t";
+		std::cin >> answer;
+	}
+	return answer;
+}
+
+
+int headGame(int choiceMachine, std::string choiceGamer) 
+{
+	if (choiceMachine == 0) 
+	{
+		std::cout << "\n\t\tChoosing a computer is a rock!\n";
+		if (choiceGamer == "rock")
+			return 0;//Ничья
+		else if (choiceGamer == "paper")
+			return 2;//Игрок выиграл
+		else
+			return 1;//Игрок проиграл
+	}
+	else if (choiceMachine == 1)
+	{
+		std::cout << "\n\t\tChoosing a computer is a paper!\n";
+		if (choiceGamer == "rock")
+			return 1;//Игрок проиграл
+		else if (choiceGamer == "paper")
+			return 0;//Ничья
+		else
+			return 2;//Игрок выиграл
+	}
+	else
+	{
+		std::cout << "\n\t\tChoosing a computer is a scissors!\n";
+		if (choiceGamer == "rock")
+			return 2;//Игрок выиграл
+		else if (choiceGamer == "paper")
+			return 1;//Игрок проиграл
+		else
+			return 0;//Ничья
+	}
+}
+
+
+void statistics(int result)
+{
+	static int win = 0;
+	static int losses = 0;
+	static int draw = 0;
+	switch (result)
+	{
+	case 0: draw++;
+		break;
+	case 1: losses++;
+		break;
+	case 2: win++;
+		break;
+	}
+	std::cout << "\n\t\tWIN: " << win << "\n\t\tLOSSES: " << losses << "\n\t\tDRAW: " << draw;
+}
+
+
+int main() 
+{
+	while (startGame()) 
+	{
+		std::cout << "\n\t\tRock-paper-scissors one! two! three!";
+		int choiceMachine = figure();
+		statistics(headGame(choiceMachine, figureGamer()));
+	}
+
+	return 0;
+}
